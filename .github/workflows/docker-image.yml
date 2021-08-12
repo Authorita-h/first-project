@@ -1,9 +1,9 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: 
-    - 'main'
+#   push:
+#     branches: 
+#     - 'main'
   pull_request:
     branches: 
     - 'main'
@@ -22,8 +22,7 @@ jobs:
           docker stop $CONTAINER_NAME
           docker rm $CONTAINER_NAME
         fi
-        docker build -t first-project:v$PULL_REQUEST_NUMBER -t first-project:latest .
+        docker build -t first-project:${{github.event.number}} -t first-project:latest .
 #        docker run -p 5000:5000 -d --name $CONTAINER_NAME first-project
       env: 
         CONTAINER_NAME: container
-        PULL_REQUEST_NUMBER: ${{github.event.number}}
