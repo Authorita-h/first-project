@@ -15,10 +15,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build and Run the Docker image
       run: |
-        docker build -t first-project .
         if [ ! -z $(docker ps | grep $CONTAINER_NAME) ]; then
           docker stop $CONTAINER_NAME
         fi
+        docker build -t first-project .
         docker run -p 5000:5000 -d --name $CONTAINER_NAME first-project
       env: 
         CONTAINER_NAME: container
