@@ -16,7 +16,4 @@ jobs:
     - name: Build and Run the Docker image
       run: |
         docker build -t first-project .
-        docker stop $LAST_DOCKER_ID
         docker run -p 5000:5000 -d first-project
-        export $LAST_DOCKER_ID=$(docker ps -lq)
-        echo $LAST_DOCKER_ID
