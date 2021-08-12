@@ -22,7 +22,7 @@ jobs:
           docker stop $CONTAINER_NAME
           docker rm $CONTAINER_NAME
         fi
-        docker build -t "first-project:$PULL_REQUEST_NUMBER" -t "first-project:latest" .
+        docker build -t firstproject:$PULL_REQUEST_NUMBER -t firstproject:latest .
 #        docker run -p 5000:5000 -d --name $CONTAINER_NAME first-project
       env: 
         CONTAINER_NAME: container
