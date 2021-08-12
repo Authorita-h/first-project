@@ -13,7 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build and Run the Docker image
       run: |
         docker build -t first-project .
+        docker stop $(docker stop $(docker ps -aq))
         docker run -p 5000:5000 -d first-project
