@@ -17,6 +17,7 @@ jobs:
       run: |
         if [[ ! -z $(docker ps | grep $CONTAINER_NAME) ]]; then
           docker stop $CONTAINER_NAME
+          docker rm $CONTAINER_NAME
         fi
         docker build -t first-project .
         docker run -p 5000:5000 -d --name $CONTAINER_NAME first-project
