@@ -16,4 +16,4 @@ jobs:
     - name: Build the Docker image
       run: |
         docker build -t first-project .
-        docker run -p 5000:5000 --name first-project -d first-project
+        docker run -p 5000:5000 -d first-project
