@@ -1,12 +1,12 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: 
-    - 'main'
-#   pull_request:
+#   push:
 #     branches: 
 #     - 'main'
+  pull_request:
+    branches: 
+    - 'main'
 
 jobs:
 
@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build and Run the Docker image
-#       if: github.event.pull_request.merged == true
+      if: github.event.pull_request.merged == true
       run: |
         docker build -t api -t first-project:latest .
         docker build -t front -t first-project:latest frontend/frontend/
