@@ -17,12 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build and Run the Docker image
+      if: github.event.pull_request.merged == true
       run: |
-        if [[ ! -z $(docker ps | grep $CONTAINER_NAME) ]]; then
-          docker stop $CONTAINER_NAME
-          docker rm $CONTAINER_NAME
-        fi
         docker build -t first-project:${{github.event.number}} -t first-project:latest .
-#        docker run -p 5000:5000 -d --name $CONTAINER_NAME first-project
-      env: 
-        CONTAINER_NAME: container
+        docker build -t first-project:${{github.event.number}} -t first-project:latest /frontend/frontend/
