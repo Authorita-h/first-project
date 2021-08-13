@@ -20,4 +20,4 @@ jobs:
 #       if: github.event.pull_request.merged == true
       run: |
         docker build -t first-project -t first-project:latest .
-        docker build -t first-project -t first-project:latest /frontend/frontend/
+        docker build -t first-project -t first-project:latest -f /frontend/frontend/Dockerfile
