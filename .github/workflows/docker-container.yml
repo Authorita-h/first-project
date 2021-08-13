@@ -13,11 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run the Docker image
-      run: |
-        if [[ ! -z $(docker ps | grep $PROJECT_NAME) ]]; then 
-          docker-compose down
-        fi
-        docker-compose up -d --build
-      env:
-        PROJECT_NAME: first-project
-#      run: docker run -p 5000:5000 -d --name container first-project
+      run: docker-compose up -d --build
