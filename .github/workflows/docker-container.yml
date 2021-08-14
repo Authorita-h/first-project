@@ -14,4 +14,5 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run the Docker image
+      if: github.event.pull_request.merged == true
       run: docker-compose up -d --force-recreate
