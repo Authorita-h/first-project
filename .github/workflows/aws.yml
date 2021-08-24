@@ -63,7 +63,7 @@ jobs:
         # be deployed to ECS.
         docker build -t ${{ secret.SECRET_REPOSITORY }} .
         docker push ${{ secret.SECRET_REPOSITORY }}
-        echo "::set-output name=image::${{ secret.SECRET_REPOSITORY }}"
+        echo "::set-output name=image::${{ secrets.SECRET_REPOSITORY }}"
 
 #     - name: Fill in the new image ID in the Amazon ECS task definition
 #       id: task-def
