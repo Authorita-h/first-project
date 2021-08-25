@@ -83,5 +83,5 @@ jobs:
 #   -      wait-for-service-stability: true
     - name: Run Task
       run: |
-        aws ecs create-service --sercice-name NewService --desired-count 1 --launch-type EC2 --cluster TestCluster --task-definition NewTask:2
+        aws ecs create-service --service-name NewService --desired-count 1 --launch-type EC2 --cluster TestCluster --task-definition NewTask:2
 
