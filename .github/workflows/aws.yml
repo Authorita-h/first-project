@@ -83,6 +83,6 @@ jobs:
 #   -      wait-for-service-stability: true
     - name: Run Task
       run: |
-        aws ecs create-service --service-name NewService1 --desired-count 1 --launch-type EC2 --cluster TestCluster --task-definition NewTask:5 --load-balancers "loadBalancerName=Test-LB,containerName=Test_Container,containerPort=81"
+        aws ecs create-service --service-name NewService1 --desired-count 1 --launch-type EC2 --cluster TestCluster --task-definition NewTask:5 --load-balancers "loadBalancerName=Test-LB,containerName=Test_Container,containerPort=80"
 #        aws ecs create-service --service-name NewService2 --desired-count 1 --launch-type EC2 --cluster TestCluster --task-definition NewTask:4 --load-balancers "loadBalancerName=Test-LB,containerName=Test_Container,containerPort=80"
 
