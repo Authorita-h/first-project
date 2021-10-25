@@ -50,7 +50,7 @@ jobs:
       run: docker build -t ${{ needs.create_infrastructure.outputs.rep_url }} .
       
     - name: Push backend into ECR repository
-      run: docker push
+      run: docker push ${{ needs.create_infrastructure.outputs.rep_url }}
       
   create_service:
     runs-on: self-hosted
