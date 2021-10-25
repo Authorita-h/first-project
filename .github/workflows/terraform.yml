@@ -15,7 +15,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      BRANCH_NAME: ${GITHUB_REF##*/}
       
     steps:
     - name: Checkout
@@ -25,7 +24,7 @@ jobs:
       run: terraform init
       
     - name: Change/Create Terraform Workspace
-      run: terraform workspace select $BRANCH_NAME || terraform workspace new $BRANCH_NAME
+      run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
       
     - name: Terraform apply
       run: terraform apply -auto-approve
