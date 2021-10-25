@@ -1,5 +1,5 @@
 on:
-  pull_request:
+  push:
     branches: 
       - 'main'
 
@@ -47,7 +47,7 @@ jobs:
       uses: actions/checkout@v2
     
     - name: Build backend
-      run: docker build -t ${{ needs.create_infrastructure.outputs.rep_url }} .
+      run: docker build -t ${{ needs.create_infrastructure.outputs.rep_url }}:latest .
       
     - name: Push backend into ECR repository
       run: docker push
