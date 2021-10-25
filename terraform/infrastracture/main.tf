@@ -137,3 +137,11 @@ resource "aws_iam_instance_profile" "ecs_agent" {
 output "ecr_repository" {
   value = aws_ecr_repository.ecr_backend.repository_url
 }
+
+output "ecs_cluster_id" {
+  value = aws_ecs_cluster.ecs_cluster.id
+}
+
+output "ecs_task_defenition_arn" {
+  value = aws_ecs_task_definition.ecs_new_task.arn
+}
