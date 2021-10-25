@@ -1,0 +1,40 @@
+on:
+  pull_request:
+    branches: 
+      - 'main'
+
+name: Create infrastructure using Terraform
+
+jobs:
+  create_infrastructure:
+    name: Create
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: terraform/infrastracture
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: 'eu-central-1'
+      
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Terraform Initialization
+      run: terraform init
+      
+    - name: Change/Create Terraform Workspace
+      run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
+      
+    - name: Terraform apply
+      run: terraform apply -auto-approve
+      
+    - name: Get Repository Name
+      id: repository_name
+      run: echo "::set-output name=rep_name::$(terraform output -raw ecr_repository)"
+      
+    - name: Print ecr repository name
+      run: echo ${{ steps.repository_name.outputs.rep_name }}
+  
+ 
