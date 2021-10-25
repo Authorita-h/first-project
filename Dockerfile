@@ -1,4 +1,4 @@
-FROM python
+FROM python:alpine
 ENV FLASK_APP=main.py
 RUN mkdir /docker
 WORKDIR /docker
