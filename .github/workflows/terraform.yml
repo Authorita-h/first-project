@@ -29,4 +29,12 @@ jobs:
       
     - name: Terraform apply
       run: terraform apply -auto-approve
+      
+    - name: Get Repository Name
+      id: repository_name
+      run: echo "::set-output name=rep_name::$(terraform output -raw ecr_repository)"
+      
+    - name: Print ecr repository name
+      run: echo steps.repository_name.outputs.rep_name
+  
  
