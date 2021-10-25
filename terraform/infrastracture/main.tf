@@ -1,5 +1,13 @@
 provider "aws" {}
 
+terraform {
+  backend "s3" {
+    bucket = "remote-state.bucket"
+    key    = "infrastructure/terraform.tfstate"
+    region = "eu-central-1"
+  }
+}
+
 resource "aws_security_group" "new_security_group" {
   name        = "${local.workspace}-security-group"
   description = "HTTP"
@@ -26,6 +34,8 @@ resource "aws_security_group" "new_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+
 
 resource "aws_s3_bucket" "s3_frontend" {
   bucket = local.s3_bucket_name
