@@ -41,8 +41,6 @@ jobs:
   
   build:
     runs-on: self-hosted
-    env: 
-      REPOSITORY: ${{ steps.repository_name.outputs.rep_name }}
     needs: [create_infrastructure]
     steps:
     - name: Checkout
