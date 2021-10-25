@@ -3,8 +3,13 @@ on:
     branches: 
       - 'main'
 
-name: Create infrastructure using Terraform
+name: Create infrastructure using Terraform and Build docker image 
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: 'eu-central-1'
+  
 jobs:
   create_infrastructure:
     name: Create
@@ -12,11 +17,8 @@ jobs:
     defaults:
       run:
         working-directory: terraform/infrastracture
-    env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: 'eu-central-1'
-      
+    outputs:
+      rep_url: ${{ steps.repository_name.outputs.rep_name }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -30,11 +32,42 @@ jobs:
     - name: Terraform apply
       run: terraform apply -auto-approve
       
-    - name: Get Repository Name
+    - name: Get Repository Url
       id: repository_name
       run: echo "::set-output name=rep_name::$(terraform output -raw ecr_repository)"
       
     - name: Print ecr repository name
       run: echo ${{ steps.repository_name.outputs.rep_name }}
   
- 
+  build:
+    runs-on: self-hosted
+    needs: [create_infrastructure]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Build backend
+      run: docker build -t ${{ needs.create_infrastructure.outputs.rep_url }} .
+      
+    - name: Push backend into ECR repository
+      run: docker push
+      
+  create_service:
+    runs-on: self-hosted
+    needs: [build]
+    defaults:
+      run:
+        working-directory: terraform/service
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    - name: Terraform Initialization
+      run: terraform init
+      
+    - name: Change/Create Terraform Workspace
+      run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
+      
+    - name: Terraform apply
+      run: terraform apply -auto-approve
+        
