@@ -15,14 +15,12 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      BRANCH_NAME: ${{ github.head_ref }}
       
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set Workspace
-      run: echo "::set-env name=BRANCH_NAME::${{ github.head_ref }}"
-      
     - name: Terraform Initialization
       run: terraform init
       
