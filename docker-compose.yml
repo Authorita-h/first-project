@@ -8,3 +8,8 @@ services:
     image: front
     ports:
       - "80:80"
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: test
+
