@@ -19,6 +19,8 @@ jobs:
         working-directory: terraform/infrastracture
     outputs:
       rep_url: ${{ steps.repository_name.outputs.rep_name }}
+      ecs_cluster_id: ${{ steps.cluster_id.outputs.cluster_id }}
+      ecs_task_defenition_arn: ${{ steps.task_defenition.outputs.task_defenition }}
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -36,8 +38,13 @@ jobs:
       id: repository_name
       run: echo "::set-output name=rep_name::$(terraform output -raw ecr_repository)"
       
-    - name: Print ecr repository name
-      run: echo ${{ steps.repository_name.outputs.rep_name }}
+    - name: Get Cluster Id
+      id: cluster_id
+      run: echo "::set-output name=cluster_id::$(terraform output -raw ecs_cluster_id)"
+  
+    - name: Get Task Defenition Arn
+      id: task_defenition
+      run: echo "::set-output name=task_defenition::$(terraform output -raw ecs_task_defenition_arn)" 
   
   build:
     runs-on: self-hosted
@@ -65,7 +72,7 @@ jobs:
       
   create_service:
     runs-on: self-hosted
-    needs: [build]
+    needs: [build, create_infrastructure]
     defaults:
       run:
         working-directory: terraform/service
@@ -80,5 +87,5 @@ jobs:
       run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
       
     - name: Terraform apply
-      run: terraform apply -auto-approve
+      run: terraform apply -auto-approve -var="ecs_cluster_id=${{ needs.create_infrastructure.outputs.ecs_cluster_id }}" -var="ecs_task_defenition_arn=${{ needs.create_infrastructure.outputs.ecs_task_defenition_arn }}"
         
