@@ -1,5 +1,5 @@
 on:
-  push:
+  pull_request:
     branches: 
       - 'main'
 
@@ -21,14 +21,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-#     - name: Terraform Initialization
-#       run: terraform init
+    - name: Terraform Initialization
+      run: terraform init
       
-#     - name: Change/Create Terraform Workspace
-#       run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
+    - name: Change/Create Terraform Workspace
+      run: terraform workspace select ${GITHUB_REF##*/} || terraform workspace new ${GITHUB_REF##*/}
       
-#     - name: Terraform apply
-#       run: terraform apply -auto-approve
+    - name: Terraform apply
+      run: terraform apply -auto-approve
       
     - name: Get Repository Name
       id: repository_name
