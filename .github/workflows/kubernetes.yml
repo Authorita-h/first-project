@@ -13,11 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Run minikube
+      run: minikube start || echo "minikube is running"
+    
     - name: Build the Docker image
       run: docker-compose build --force-rm
-      
-    - name: Run minikube
-      run: minikube start
       
     - name: Run all resources
       run: |
