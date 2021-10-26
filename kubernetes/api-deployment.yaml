@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-first-project-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-first-project
+  template:
+    metadata:
+      labels:
+        app: api-first-project
+    spec:
+      containers:
+        - name: api
+          image: authoritahh/test:api
+          imagePullPolicy: Always
+          ports: 
+          - containerPort: 5000
+          resources:
+            limits:
+              memory: "50Mi"
+              cpu: "200m"

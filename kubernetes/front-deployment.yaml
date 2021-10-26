@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-first-project-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-first-project
+  template:
+    metadata:
+      labels:
+        app: front-first-project
+    spec:
+      containers:
+        - name: front
+          image: authoritahh/test:front
+          imagePullPolicy: Always
+          ports: 
+          - containerPort: 80
+          resources:
+            limits:
+              memory: "50Mi"
+              cpu: "200m"
